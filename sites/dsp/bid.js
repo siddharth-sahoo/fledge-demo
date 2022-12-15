@@ -15,6 +15,19 @@
  */
 function generateBid(interestGroup, auctionSignals, perBuyerSignals, trustedBiddingSignals, browserSignals) {
   const [testAd] = interestGroup.ads;
+  
+  // privateAggregation.reportContributionsForEvent({
+  //   eventType: 'reserved.loss', 
+  //   contributions: {
+  //     bucket: 12489523n,
+  //     value: {
+  //       baseValue: "winningBid",
+  //       scale: 2, // Number which will be multiplied by browser value
+  //       offset: -bid // Numbers which will be added to browser value, prior to scaling
+  //     }
+  //   }
+  // });
+
 
   return {
     bid: 1, // Arbitrary bid value
@@ -25,6 +38,24 @@ function generateBid(interestGroup, auctionSignals, perBuyerSignals, trustedBidd
   };
 }
 
-function reportWin() {
-  console.log('report win');
+// Generating an arbitrary aggregation key
+function generateAggregationKey(signals) {
+  return 123456n
+}
+
+function reportWin(auctionSignals, perBuyerSignals, sellerSignals, browserSignals, directFromSellerSignals) {
+  const { interestGroupOwner } = browserSignals
+  const signals = JSON.stringify({ auctionSignals, perBuyerSignals, sellerSignals, browserSignals, directFromSellerSignals })
+
+  // Temporary auction result reporting
+  sendReportTo(`${interestGroupOwner}/auction-results-report?signals=${signals}`);
+
+  // Temporary event-level reporting
+  registerAdBeacon({
+    'hover': `${interestGroupOwner}/engagement-report?signals=${signals}`,
+    'click': `${interestGroupOwner}/engagement-report?signals=${signals}`,
+  });
+
+  // Aggregate reporting 
+  privateAggregation.sendHistogramReport({ bucket: generateAggregationKey(signals), value: 100 })
 }

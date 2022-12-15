@@ -25,6 +25,7 @@ const joinInterestGroup = async (dspUrl) => {
       {
         renderUrl: `${dspUrl}/ads/default-ad.html`,
         metadata: {
+          adId: 1234,
           adName: 'default-ad',
         },
       },

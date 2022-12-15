@@ -19,4 +19,14 @@ const setupApp = require('../helpers/setup-app');
 
 const app = setupApp(express(), 'dsp');
 
+app.post('/auction-results-report', (req, res) => {
+  console.log(JSON.stringify({ params: req.params, body: req.body }));
+  res.send(200)
+})
+
+app.post('/engagement-report', (req, res) => {
+  console.log(JSON.stringify({ params: req.params, body: req.body }));
+  res.send(200)
+})
+
 exports.dsp = functions.https.onRequest(app);
