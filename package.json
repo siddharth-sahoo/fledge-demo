@@ -8,7 +8,7 @@
     "shell": "firebase functions:shell",
     "logs": "firebase functions:log",
     "postinstall": "cd functions && npm install && cd ..",
-    "kill-8080": "lsof -ti tcp:8080 | xargs kill -9"
+    "kill-8080": "lsof -ti tcp:8080 | xargs --no-run-if-empty kill -9"
   },
   "author": "",
   "license": "ISC",
